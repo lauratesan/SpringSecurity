@@ -1,9 +1,9 @@
 package com.example.demo;
 
-import com.example.demo.domain.User;
-import com.example.demo.domain.Vehicle;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.repository.VehicleRepository;
+import com.example.demo.models.User;
+import com.example.demo.models.Vehicle;
+import com.example.demo.repositories.UserRepository;
+import com.example.demo.repositories.VehicleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

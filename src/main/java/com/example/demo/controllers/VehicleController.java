@@ -1,10 +1,10 @@
 package com.example.demo.controllers;
 
 import com.example.demo.exception.VehicleNotFoundException;
+import com.example.demo.models.Brand;
 import com.example.demo.models.Vehicle;
 import com.example.demo.repositories.VehicleRepository;
 import com.example.demo.web.VehicleForm;
-import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,7 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.ResponseEntity.ok;
 
-@Data
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.springframework.http.ResponseEntity.created;
+import static org.springframework.http.ResponseEntity.noContent;
+
 @RestController
 @RequestMapping("/v1/vehicles")
 public class VehicleController {
@@ -26,10 +31,20 @@ public class VehicleController {
 
 
     @GetMapping("")
-    public ResponseEntity all() {
-        return ok(this.vehicles.findAll());
+    public ResponseEntity<List<Vehicle>> all(@RequestParam(name = "brand", required = false) String[] brands) {
+        if (brands == null || brands.length == 0) {
+            return ok(this.vehicles.findAll());
+        } else {
+            List<Brand> brandList = new ArrayList<Brand>();
+            for (String brand : brands) {
+                brandList.add(Brand.valueOf(brand.toUpperCase()));
+            }
+            return ok(this.vehicles.findByBrandIn(brandList));
+        }
+
     }
 
+    @SuppressWarnings("rawtypes")
     @PostMapping("")
     public ResponseEntity save(@RequestBody VehicleForm form, HttpServletRequest request) {
         Vehicle saved = this.vehicles.save(Vehicle.builder().name(form.getName()).build());
@@ -43,11 +58,11 @@ public class VehicleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Long id) {
+    public ResponseEntity<Vehicle> get(@PathVariable("id") Long id) {
         return ok(this.vehicles.findById(id).orElseThrow(() -> new VehicleNotFoundException()));
     }
 
-
+    @SuppressWarnings("rawtypes")
     @PutMapping("/{id}")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody VehicleForm form) {
         Vehicle existed = this.vehicles.findById(id).orElseThrow(() -> new VehicleNotFoundException());
@@ -57,6 +72,7 @@ public class VehicleController {
         return noContent().build();
     }
 
+    @SuppressWarnings("rawtypes")
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
         Vehicle existed = this.vehicles.findById(id).orElseThrow(() -> new VehicleNotFoundException());
