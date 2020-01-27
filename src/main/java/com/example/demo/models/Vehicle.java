@@ -15,7 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Vehicle Serializable {
+public class Vehicle implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

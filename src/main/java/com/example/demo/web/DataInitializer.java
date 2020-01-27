@@ -1,5 +1,6 @@
 package com.example.demo.web;
 
+import com.example.demo.models.Vehicle;
 import com.example.demo.repositories.VehicleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

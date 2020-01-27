@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.Vehicle;
 import com.example.demo.repositories.VehicleRepository;
+import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+@Data
 @RestController
 @RequestMapping("/v1/vehicles")
 public class VehicleController {
